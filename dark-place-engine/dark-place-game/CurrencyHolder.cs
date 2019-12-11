@@ -6,6 +6,7 @@ namespace dark_place_game
     [System.Serializable]
     /// Une Exeption Custom
     public class NotEnoughtSpaceInCurrencyHolderExeption : System.Exception {}
+    public class CantWithDrawMoreThanCurrentAmountExeption: SystemException{}
 
     public class CurrencyHolder
     {
@@ -42,7 +43,7 @@ namespace dark_place_game
         private int capacity = 0;
 
         public CurrencyHolder(string name,int capacity, int amount) {
-           if(name==null || name=="" || amount < 0){
+           if(name==null || name=="" || amount < 0 || name.Length < 4){
                throw new System.ArgumentException("");
            } else {
             Capacity = capacity;
@@ -60,11 +61,23 @@ namespace dark_place_game
         }
 
         public void Store(int amount) {
-            
+            if(Capacity<currentAmount+amount){
+                throw new NotEnoughtSpaceInCurrencyHolderExeption();
+            }
+            currentAmount+=amount;
+
         }
 
         public void Withdraw(int amount) {
+            if(currentAmount-amount<0){
+                throw new CantWithDrawMoreThanCurrentAmountExeption();
+            }
+
+            
 
         }
     }
+
+     
+
 }
