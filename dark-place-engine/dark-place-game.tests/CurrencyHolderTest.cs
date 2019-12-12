@@ -129,5 +129,122 @@ namespace dark_place_game.tests
             };
             Assert.Throws<ArgumentException>(mauvaisAppel);
         }
+
+        [Fact]
+        //Un nom de currency doit faire entre 4 et 10 characteres :
+        // Ecrivez un test pour un nom de douze caracteres
+        public void TestNameBetween4and10(){
+            Action mauvaisAppel = () => new CurrencyHolder("Abcdefghijkl",EXEMPLE_CAPACITE_VALIDE , EXEMPLE_CONTENANCE_INITIALE_VALIDE);
+            Assert.Throws<ArgumentException>(mauvaisAppel);
+        }
+
+        [Fact]
+        //On ne peux pas mettre (methode) put une quantité negative de currency dans un CurrencyHolder
+        public void TestCantAddNegativeAmount(){
+            Action mauvaisAppel = () => {
+                CurrencyHolder ch7 = new CurrencyHolder("",10 , 5);
+                ch7.Store(-6);
+            };
+            Assert.Throws<ArgumentException>(mauvaisAppel);
+        }
+
+        [Fact]
+        //On ne peux pas ajouter ou retirer 0 currency (lever expetion) (2 tests) 
+        public void TestAddZeroAmount(){
+            Action mauvaisAppel = () => {
+                CurrencyHolder ch8 = new CurrencyHolder("",10 , 5);
+                ch8.Store(0);
+            };
+            Assert.Throws<ArgumentException>(mauvaisAppel);
+        }
+
+        [Fact]
+        public void TestWithdrawZeroAmount(){
+             Action mauvaisAppel = () => {
+                CurrencyHolder ch9 = new CurrencyHolder("", 10, 5);
+                ch9.Withdraw(0);
+            };
+            Assert.Throws<ArgumentException>(mauvaisAppel);
+        }
+
+        [Fact]
+        // Un nom de currency ne doit pas commencer par la lettre a majuscule ou minuscule (2 tests)
+        public void TestStartNameWithAMaj(){
+            Action mauvaisAppel = () => {
+                CurrencyHolder ch10 = new CurrencyHolder("Abcde",EXEMPLE_CAPACITE_VALIDE, EXEMPLE_CONTENANCE_INITIALE_VALIDE);
+            };
+            Assert.Throws<ArgumentException>(mauvaisAppel);
+        }
+
+        [Fact]
+        public void TestStartNameWithAMin(){
+            Action mauvaisAppel = () => {
+                CurrencyHolder ch11 = new CurrencyHolder("abcde",EXEMPLE_CAPACITE_VALIDE, EXEMPLE_CONTENANCE_INITIALE_VALIDE);
+            };
+            Assert.Throws<ArgumentException>(mauvaisAppel);
+        }
+
+        [Fact]
+        // Un CurrencyHolder ne peux avoir une capacité inférieure à 1 (2 tests)
+        public void TestCapacityLessThan1_1(){
+            Action mauvaisAppel = () => {
+                CurrencyHolder ch12 = new CurrencyHolder(EXEMPLE_NOM_MONNAIE_VALIDE, 0, EXEMPLE_CONTENANCE_INITIALE_VALIDE);
+            };
+            Assert.Throws<ArgumentException>(mauvaisAppel);
+        }
+
+        [Fact]
+        public void TestCapacityLessThan1_2(){
+            Action mauvaisAppel = () => {
+                CurrencyHolder ch13 = new CurrencyHolder(EXEMPLE_NOM_MONNAIE_VALIDE, -1, EXEMPLE_CONTENANCE_INITIALE_VALIDE);
+            };
+            Assert.Throws<ArgumentException>(mauvaisAppel);
+        }
+
+        [Fact]
+        // Faire 2 tests unitaires pertinents pour la methode IsEmpty
+        public void TestMethodeIsEmpty_1(){
+            CurrencyHolder ch14 = new CurrencyHolder(EXEMPLE_NOM_MONNAIE_VALIDE, EXEMPLE_CAPACITE_VALIDE, 0);
+            bool res = ch14.IsEmpty();
+            Assert.True(res);
+        }
+
+        [Fact]
+         public void TestMethodeIsEmpty_2(){
+            CurrencyHolder ch14 = new CurrencyHolder(EXEMPLE_NOM_MONNAIE_VALIDE, EXEMPLE_CAPACITE_VALIDE, 5);
+            bool res = ch14.IsEmpty();
+            Assert.False(res);
+        } 
+
+        [Fact]
+        // Un CurrencyHolder est plein (IsFull) si son contenu est égal à sa capacité (4 test)
+        public void TestMethodeIsFull_1(){
+            CurrencyHolder ch15 = new CurrencyHolder(EXEMPLE_NOM_MONNAIE_VALIDE, 5, 5);
+            bool res = ch15.IsFull();
+            Assert.True(res);
+        }
+
+        [Fact]
+        public void TestMethodeIsFull_2(){
+            CurrencyHolder ch15 = new CurrencyHolder(EXEMPLE_NOM_MONNAIE_VALIDE, 155, 155);
+            bool res = ch15.IsFull();
+            Assert.True(res);
+        }
+
+        [Fact]
+        public void TestMethodeIsFull_3(){
+            CurrencyHolder ch15 = new CurrencyHolder(EXEMPLE_NOM_MONNAIE_VALIDE, 5, 4);
+            bool res = ch15.IsFull();
+            Assert.False(res);
+        }
+        [Fact]
+        public void TestMethodeIsFull_4(){
+            CurrencyHolder ch15 = new CurrencyHolder(EXEMPLE_NOM_MONNAIE_VALIDE, 155, 40);
+            bool res = ch15.IsFull();
+            Assert.False(res);
+        }
+
+
+
     }
 }
